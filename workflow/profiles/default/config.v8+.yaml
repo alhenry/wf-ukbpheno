@@ -1,0 +1,32 @@
+# Settings to run
+use-singularity: False
+# singularity-args: "-B /user/home/xx20081/work/data:/user/home/xx20081/work/data,/mnt/storage/private/mrcieu/data/genomic_data/dbsnp:/mnt/storage/private/mrcieu/data/genomic_data/dbsnp"
+use-conda: False
+executor: cluster-generic
+cluster-generic-submit-cmd:
+  qsub 
+    -N {rule}-{wildcards} 
+    -V 
+    -cwd 
+    -o job_logs 
+    -e job_logs 
+    -l mem={resources.mem_mb}M 
+    -l h_rt={resources.time} 
+    -pe smp {resources.nodes}
+cluster-generic-cancel-cmd: qdel {rule}-{wildcards} 
+# cluster-generic-status-cmd: qstat -j {rule}-{wildcards} 
+default-resources:
+  time: 4:00:00
+  nodes: 8
+  mem_mb: 4000
+jobs: 10
+local-cores: 4
+latency-wait: 10
+keep-going: True
+rerun-incomplete: True
+rerun-triggers: mtime
+printshellcmds: True
+# restart-times: 0
+# max-jobs-per-second: 10
+# max-status-checks-per-second: 1
+# scheduler: greedy

@@ -1,0 +1,77 @@
+# The main entry point of your workflow.
+# Run from root dir (parent dir of this Snakefile)
+# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
+
+# --------------
+# Configuration
+# --------------
+configfile: "workflow/config.yaml"
+
+# Allow users to fix the underlying OS via singularity.
+singularity: "docker://alhenry/ukbpheno"
+
+rule map_file:
+    """
+    Map file location based on config YAML file
+    Create symbolic link relative to current working directory
+    as input files for workflow
+    """
+    output:
+        hesin = "resources/hesin/hesin.txt",
+        hesin_diag = "resources/hesin/hesin_diag.txt",
+        hesin_oper = "resources/hesin/hesin_oper.txt",
+        gp_clinical = "resources/gp/gp_clinical.txt",
+        gp_scripts = "resources/gp/gp_scripts.txt",
+        gp_registrations = "resources/gp/gp_registrations.txt",
+        death_cause = "resources/death/death_cause.txt",
+        withdrawals = "resources/misc/ukb_withdrawals.txt",
+        ukbtab = "resources/main_dataset/ukb_data.tab",
+        html = "resources/main_dataset/ukb_data.html",
+        # enc_ukb = "resources/main_dataset/ukb_data.enc_ukb",
+        # key =  "resources/main_dataset/ukb_data.key",
+        # ukbconv = "resources/main_dataset/ukbconv",
+        # ukbmd5 = "resources/main_dataset/ukbmd5",
+        # ukbunpack = "resources/main_dataset/ukbunpack"
+    run:
+        from pathlib import Path
+        for k,v in config["file_map"].items():
+            Path(output[k]).symlink_to(Path(v).resolve())
+
+# rule prep_ukbtab:
+#     """
+#     prepare ukbtab file (tab-delimited file of baseline info
+#     required by ukbpheno package)
+#     see: https://uk-biobank.gitbook.io/data-access-guide/the-main-dataset
+#     """
+#     input:
+#         enc_ukb = "resources/main_dataset/ukb_data.enc_ukb",
+#         html = "resources/main_dataset/ukb_data.html",
+#         key =  "resources/main_dataset/ukb_data.key",
+#         ukbconv = "resources/main_dataset/ukbconv",
+#         # default to fields: 53, 20001, 20002, 20003, 20004, 40006, 40013
+#         fields = "resources/misc/field_extract.txt"
+#     output:
+#         "resources/basket/ukb_data.tab"
+#     shell:
+#         """
+#         {input.ukbconv} {input.enc_ukb} r -i{input.fields} -o{output}
+#         """
+
+rule ukbpheno:
+    input:
+        hesin = "resources/hesin/hesin.txt",
+        hesin_diag = "resources/hesin/hesin_diag.txt",
+        hesin_oper = "resources/hesin/hesin_oper.txt",
+        gp_clinical = "resources/gp/gp_clinical.txt",
+        gp_scripts = "resources/gp/gp_scripts.txt",
+        gp_registrations = "resources/gp/gp_registrations.txt",
+        death_cause = "resources/death/death_cause.txt",
+        withdrawals = "resources/misc/ukb_withdrawals.txt",
+        ukbtab = "resources/main_dataset/ukb_data.tab",
+        html = "resources/main_dataset/ukb_data.html",
+        trait_definition = "resources/trait_definitions/{trait_def}.txt"
+    output:
+        "results/{trait_def}.txt"
+    threads: 8
+    script:
+        "scripts/run_ukbpheno.R"

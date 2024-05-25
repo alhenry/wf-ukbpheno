@@ -1,0 +1,5 @@
+job_logs/
+.snakemake
+.lintr
+resources/
+results/

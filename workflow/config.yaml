@@ -1,0 +1,33 @@
+# Mapping local file
+
+
+file_map:
+  # HES
+  hesin: /lustre/projects/ICS_UKB/genotypes/b37/download/hes_data/hesin.txt
+  hesin_diag: /lustre/projects/ICS_UKB/genotypes/b37/download/hes_data/hesin_diag.txt 
+  hesin_oper: /lustre/projects/ICS_UKB/genotypes/b37/download/hes_data/hesin_oper.txt 
+  
+  # GP
+  gp_clinical: /lustre/projects/ICS_UKB/genotypes/b37/download/gp_data/gp_clinical.txt
+  gp_registrations: /lustre/projects/ICS_UKB/genotypes/b37/download/gp_data/gp_registrations.txt
+  gp_scripts: /lustre/projects/ICS_UKB/genotypes/b37/download/gp_data/gp_scripts.txt
+  
+  # Death registry
+  death_cause: /lustre/projects/ICS_UKB/genotypes/b37/download/death_data/death_cause.txt
+
+  # withdrawals eid
+  withdrawals: /lustre/projects/ICS_UKB/withdrawals/latest_withdrawals.txt 
+
+  # UKB tab
+  ukbtab: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukb675205/ukb675205.tab
+
+  # UKB baskets (for extracting tab data)
+  html: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukb675205/ukb675205.html
+  
+  # enc_ukb: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukb677699.enc_ukb
+  # key: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/k12113r677699.key
+  # ukbconv: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukbconv
+  # ukbmd5: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukbmd5
+  # ukbunpack: /lustre/projects/ICS_UKB/genotypes/b37/download/ukb_basket4096566_feb2024/ukbunpack
+
+# Baseline characteristics
